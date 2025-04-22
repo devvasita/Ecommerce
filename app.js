@@ -17,6 +17,10 @@ app.use(express.json());
 const adminAuthRoutes = require("./routes/admin/adminAuthRoutes");
 app.use("/adminauth/api", adminAuthRoutes);
 
+// product routes
+const productRoutes = require("./routes/product/productRoutes");
+app.use("/product/api", productRoutes);
+
 // user routes
 const userAuthRoutes = require("./routes/user/userRoutes");
 app.use("/userauth/api", userAuthRoutes);
@@ -24,4 +28,3 @@ app.use("/userauth/api", userAuthRoutes);
 app.listen(PORT, () => {
   console.log("Server Started on port", PORT);
 });
-  
