@@ -129,3 +129,33 @@ exports.GetAllProducts = async (req, res) => {
     return res.status(400).json(error);
   }
 };
+
+// to get single Product
+exports.GetSingleProduct = async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const product = await productsDB.findOne({
+      _id: productId,
+    });
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+// to deleteProduct
+exports.DeleteProduct = async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const product = await productsDB.findByIdAndDelete({
+      _id: productId,
+    });
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+

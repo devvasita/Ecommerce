@@ -20,4 +20,10 @@ router.post(
 // to get all products
 router.get("/getProducts", productController.GetAllProducts);
 
+// to get single Product
+router.get("/getsingleProduct/:productId", productController.GetSingleProduct);
+
+// to delete Product
+router.delete("/deleteProduct/:productId", productController.DeleteProduct);
+
 module.exports = router;
