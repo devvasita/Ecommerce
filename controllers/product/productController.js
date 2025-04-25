@@ -142,7 +142,7 @@ exports.GetSingleProduct = async (req, res) => {
   } catch (error) {
     return res.status(400).json(error);
   }
-};
+};                            
 
 // to deleteProduct
 exports.DeleteProduct = async (req, res) => {
