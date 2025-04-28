@@ -136,7 +136,7 @@ exports.RemoveAllItemsFromCart = async (req, res) => {
     });
 
     const cartsItem = await cartDB.findOne({
-      userId: req.userId,
+      userId: req.userId, 
       productId: productFind._id,
     });
 

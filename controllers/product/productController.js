@@ -2,6 +2,7 @@ const categoryDB = require("../../model/product/productCategoryModel");
 const productsDB = require("../../model/product/productModel");
 const cloudinary = require("../../cloudinary/cloudinary");
 const { uploadToCloudinary } = require("../../helper");
+const prodcutReviewDB = require("../../model/product/productReviewModel");
 
 // to add category for products
 exports.AddCategory = async (req, res) => {
@@ -142,7 +143,7 @@ exports.GetSingleProduct = async (req, res) => {
   } catch (error) {
     return res.status(400).json(error);
   }
-};                            
+};
 
 // to deleteProduct
 exports.DeleteProduct = async (req, res) => {
@@ -158,4 +159,72 @@ exports.DeleteProduct = async (req, res) => {
   }
 };
 
+// To add product review
+exports.AddProductReview = async (req, res) => {
+  const { productId } = req.params;
 
+  const { userName, rating, description } = req.body;
+
+  if (!productId || !userName || !rating || !description) {
+    return res.status(400).json({
+      error: "All fields are required",
+    });
+  }
+
+  try {
+    const productReview = new prodcutReviewDB({
+      userId: req.userMainId,
+      productId,
+      userName,
+      rating,
+      description,
+    });
+
+    await productReview.save();
+    res.status(200).json(productReview);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+// to get product review
+exports.GetProductReviews = async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const allReviews = await prodcutReviewDB.find({
+      productId: productId,
+    });
+
+    if (!allReviews || !allReviews.length) {
+      return res.status(400).json({
+        error: "No reviews found ",
+      });
+    }
+
+    return res.status(200).json(allReviews);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+// to delete product review
+exports.DeleteReview = async (req, res) => {
+  const { reviewId } = req.params;
+
+  try {
+    const deletedReview = await prodcutReviewDB.findByIdAndDelete({
+      _id: reviewId,
+    });
+
+    if (!deletedReview) {
+      return res.status(400).json({
+        error: "No review found",
+      });
+    }
+
+    return res.status(200).json(deletedReview);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};

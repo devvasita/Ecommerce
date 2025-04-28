@@ -3,6 +3,7 @@ const router = express.Router();
 const adminAuthenticate = require("../../middleware/admin/adminAuthenticate");
 const productController = require("../../controllers/product/productController");
 const productUpload = require("../../multerconfig/product/productStorageConfig");
+const userAuthenticate = require("../../middleware/user/userAuthenticate");
 
 // To add category
 router.post("/addcategory", adminAuthenticate, productController.AddCategory);
@@ -25,5 +26,22 @@ router.get("/getsingleProduct/:productId", productController.GetSingleProduct);
 
 // to delete Product
 router.delete("/deleteProduct/:productId", productController.DeleteProduct);
+
+// for review api
+router.post(
+  "/productreview/:productId",
+  userAuthenticate,
+  productController.AddProductReview
+);
+
+// to get particular product review
+router.get("/getproductreview/:productId", productController.GetProductReviews);
+
+// to delete product review
+router.delete(
+  "/productreviewdelete/:reviewId",
+  userAuthenticate,
+  productController.DeleteReview
+);
 
 module.exports = router;
