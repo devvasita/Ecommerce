@@ -37,6 +37,7 @@ exports.Register = async (req, res) => {
 
     // ✅ Now upload image after all checks
     const file = req.file.path;
+
     const upload = await cloudinary.uploader.upload(file);
 
     // ✅ Delete the local file after upload
@@ -86,7 +87,7 @@ exports.Login = async (req, res) => {
     });
 
     if (adminVaild) {
-      const isMatch = bcrypt.compare(password, adminVaild.password);
+      const isMatch = await bcrypt.compare(password, adminVaild.password);
 
       if (!isMatch) {
         res.status(400).json({ error: "Invaild Details" });
